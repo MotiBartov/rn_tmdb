@@ -10,7 +10,6 @@ const GenereListWrapper = ({
   onMorePressed,
 }) => {
   //   console.log(`GenereListWrapper: ${JSON.stringify(mediaList)}`);
-  const imagesBaseUrl = 'https://image.tmdb.org/t/p/w500';
 
   return (
     <View style={styles.component}>
@@ -25,13 +24,7 @@ const GenereListWrapper = ({
         keyExtractor={(media) => `${media.id}`}
         horizontal={true}
         renderItem={(media) => (
-          <MovieListItem
-            title={media.item.title}
-            imageUrl={`${imagesBaseUrl}/${media.item.imageUrl}`}
-            onPressed={() => onPressed(media.item.id)}
-            rating={media.item.rating}
-            reviews={media.item.reviews}
-          />
+          <MovieListItem media={media} onPressed={() => onPressed(media)} />
         )}
       />
     </View>

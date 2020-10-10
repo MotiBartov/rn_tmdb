@@ -1,4 +1,17 @@
-const createMedia = (title, imageUrl, id, description, rating, reviews) => {
+export const mediaType = {
+  MOVIE: 'movie',
+  TV: 'tv',
+};
+
+const createMedia = (
+  title,
+  imageUrl,
+  id,
+  description,
+  rating,
+  reviews,
+  type,
+) => {
   return {
     title: title,
     imageUrl: imageUrl,
@@ -6,6 +19,7 @@ const createMedia = (title, imageUrl, id, description, rating, reviews) => {
     description: description,
     rating: rating,
     reviews: reviews,
+    type: type,
   };
 };
 
@@ -17,6 +31,7 @@ export const mapTvShowToMedia = (tvShow) => {
     tvShow.overview,
     tvShow.vote_average,
     tvShow.vote_count,
+    mediaType.TV,
   );
 };
 
@@ -28,5 +43,6 @@ export const mapMovieToMedia = (movie) => {
     movie.overview,
     movie.vote_average,
     movie.vote_count,
+    mediaType.MOVIE,
   );
 };

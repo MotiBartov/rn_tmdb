@@ -1,15 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import {
-  View,
-  StyleSheet,
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-} from 'react-native';
-import GenereListWrapper from '../components/GenereListWrapper';
-import tmdb_api from '../api/tmdb_api';
-import {mapTvShowToMedia, mapMovieToMedia} from '../utils/Utils';
-const TmdbMain = () => {
+import {View, StyleSheet, ScrollView} from 'react-native';
+import GenereListWrapper from '../../components/GenereListWrapper';
+import tmdb_api from '../../api/tmdb_api';
+import {mapTvShowToMedia, mapMovieToMedia} from '../../utils/Utils';
+const TmdbMain = ({navigation}) => {
   const [topRated, setTopRated] = useState([]);
   const [mostPopular, setMostPopular] = useState([]);
   const [nowPlaying, setNowPlaying] = useState([]);
@@ -62,8 +56,9 @@ const TmdbMain = () => {
     fetchMovies();
   }, []);
 
-  const onItemPressed = (id) => {
-    console.log(`onItemPressed: ${id}`);
+  const onItemPressed = (media) => {
+    console.log(`onItemPressed: ${JSON.stringify(media)}`);
+    navigation.navigate('Details', {media: media});
   };
 
   return (

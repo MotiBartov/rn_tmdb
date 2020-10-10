@@ -1,22 +1,23 @@
 import React from 'react';
 import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
+const imagesBaseUrl = 'https://image.tmdb.org/t/p/w500';
 
-const MovieListItem = ({title, imageUrl, rating, reviews, onPressed}) => {
-  console.log(`MovieListItem: ${title}, ${imageUrl}, ${rating}`);
+const MovieListItem = ({media, onPressed}) => {
+  console.log(`MovieListItem: ${JSON.stringify(media)}`);
   return (
     <TouchableOpacity onPress={onPressed}>
       <View style={styles.card}>
         <Image
           style={styles.image}
           source={{
-            uri: imageUrl,
+            uri: `${imagesBaseUrl}${media.item.imageUrl}`,
           }}
         />
         <Text numberOfLines={1} style={styles.subTitle}>
-          {title}
+          {media.item.title}
         </Text>
         <Text style={styles.info}>
-          {rating} / 10 | Reviews: {reviews}
+          {media.item.rating} / 10 | Reviews: {media.item.reviews}
         </Text>
       </View>
     </TouchableOpacity>
