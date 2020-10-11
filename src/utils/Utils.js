@@ -39,6 +39,8 @@ const createMedia = (
   rating,
   reviews,
   type,
+  backdropPath,
+  release_date,
 ) => {
   return {
     title: title,
@@ -48,6 +50,8 @@ const createMedia = (
     rating: rating,
     reviews: reviews,
     type: type,
+    backdropImage: backdropPath,
+    releaseDate: release_date,
   };
 };
 
@@ -60,10 +64,13 @@ export const mapTvShowToMedia = (tvShow) => {
     tvShow.vote_average,
     tvShow.vote_count,
     mediaType.TV,
+    tvShow.backdrop_path,
+    tvShow.release_date,
   );
 };
 
 export const mapMovieToMedia = (movie) => {
+  console.log(`mapMovieToMedia: ${JSON.stringify(movie)}`);
   return createMedia(
     movie.title,
     movie.poster_path,
@@ -72,5 +79,7 @@ export const mapMovieToMedia = (movie) => {
     movie.vote_average,
     movie.vote_count,
     mediaType.MOVIE,
+    movie.backdrop_path,
+    movie.release_date,
   );
 };

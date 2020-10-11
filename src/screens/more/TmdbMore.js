@@ -63,6 +63,9 @@ const TmdbMore = ({navigation}) => {
     loadMedias(page);
   }, []);
 
+  const navigateToDetailsScreen = (media) => {
+    navigation.navigate('Details', {media: media});
+  };
   //   console.log(`items: ${JSON.stringify(items)}`);
 
   return (
@@ -71,7 +74,12 @@ const TmdbMore = ({navigation}) => {
         data={items}
         keyExtractor={(item) => `${item.id}`}
         numColumns={itemsPerRow}
-        renderItem={(item) => MovieListItem({media: item, onPressed: () => {}})}
+        renderItem={(item) =>
+          MovieListItem({
+            media: item,
+            onPressed: () => navigateToDetailsScreen(item),
+          })
+        }
         onEndReachedThreshold={0}
         onEndReached={loadMoreData}
       />
