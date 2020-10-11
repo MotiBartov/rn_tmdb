@@ -3,6 +3,34 @@ export const mediaType = {
   TV: 'tv',
 };
 
+export const Category = {
+  TOP_MOVIE: 'top_rated',
+  POPULAR_MOVIE: 'popular',
+  PLAYING_MOVIE: 'now_playing',
+  UPCOMING_MOVIE: 'upcoming',
+  POPULAR_TV: 'popular_tv',
+  TOP_TV: 'top_rated_tv',
+};
+
+export const mapCategoryToText = (category) => {
+  switch (category) {
+    case Category.TOP_MOVIE:
+      return 'Top Rated';
+    case Category.POPULAR_MOVIE:
+      return 'Most Popular';
+    case Category.PLAYING_MOVIE:
+      return 'No Playing';
+    case Category.UPCOMING_MOVIE:
+      return 'Upcoming Movies';
+    case Category.TOP_TV:
+      return 'Top Rated Tv';
+    case Category.POPULAR_TV:
+      return 'Most Popular TV';
+    default:
+      return '';
+  }
+};
+
 const createMedia = (
   title,
   imageUrl,

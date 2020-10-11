@@ -4,6 +4,8 @@ import {withNavigation} from 'react-navigation';
 
 const TmdbDetails = ({navigation}) => {
   const media = navigation.getParam('media');
+
+  console.log(`Loading details for: ${media.item.type}`);
   return (
     <View>
       <Text style={styles.title}>{media.item.title}</Text>

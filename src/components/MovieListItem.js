@@ -1,9 +1,13 @@
 import React from 'react';
 import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
-const imagesBaseUrl = 'https://image.tmdb.org/t/p/w500';
+import {Dimensions} from 'react-native';
 
+const imagesBaseUrl = 'https://image.tmdb.org/t/p/w500';
+const screen = Dimensions.get('screen');
+const itemWidth = screen.width / 2 - screen.width * 0.05;
+const imageHeight = (itemWidth * 4) / 3;
 const MovieListItem = ({media, onPressed}) => {
-  console.log(`MovieListItem: ${JSON.stringify(media)}`);
+  // console.log(`MovieListItem: ${media.item.imageUrl}`);
   return (
     <TouchableOpacity onPress={onPressed}>
       <View style={styles.card}>
@@ -40,16 +44,21 @@ const styles = StyleSheet.create({
     color: '#808080',
   },
   card: {
-    width: 200,
+    width: itemWidth,
     backgroundColor: '#e5e5e5',
     borderColor: 'black',
     borderRadius: 10,
     marginVertical: 4,
     marginLeft: 15,
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: 4},
+    shadowOpacity: 0.5,
+    shadowRadius: 2,
+    elevation: 4,
   },
   image: {
-    width: 200,
-    height: 250,
+    width: itemWidth,
+    height: imageHeight,
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
   },
