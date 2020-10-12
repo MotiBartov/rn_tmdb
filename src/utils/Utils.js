@@ -1,4 +1,4 @@
-export const mediaType = {
+export const MediaType = {
   MOVIE: 'movie',
   TV: 'tv',
 };
@@ -41,6 +41,9 @@ const createMedia = (
   type,
   backdropPath,
   release_date,
+  videos,
+  cast,
+  runtime,
 ) => {
   return {
     title: title,
@@ -52,6 +55,9 @@ const createMedia = (
     type: type,
     backdropImage: backdropPath,
     releaseDate: release_date,
+    videos,
+    cast,
+    runtime,
   };
 };
 
@@ -63,7 +69,7 @@ export const mapTvShowToMedia = (tvShow) => {
     tvShow.overview,
     tvShow.vote_average,
     tvShow.vote_count,
-    mediaType.TV,
+    MediaType.TV,
     tvShow.backdrop_path,
     tvShow.release_date,
   );
@@ -78,7 +84,7 @@ export const mapMovieToMedia = (movie) => {
     movie.overview,
     movie.vote_average,
     movie.vote_count,
-    mediaType.MOVIE,
+    MediaType.MOVIE,
     movie.backdrop_path,
     movie.release_date,
   );

@@ -1,47 +1,114 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, StyleSheet, Text, Image} from 'react-native';
 import {withNavigation} from 'react-navigation';
 import {Dimensions} from 'react-native';
-import {ScrollView} from 'react-native-gesture-handler';
-
+import {FlatList, ScrollView} from 'react-native-gesture-handler';
+import tmdb_api from '../../api/tmdb_api';
+import {MediaType} from '../../utils/Utils';
+import CastImageItem from '../../components/CastImageItem';
 const screenWidth = Dimensions.get('screen').width;
 const imagesBaseUrl = 'https://image.tmdb.org/t/p/w500';
+const castBaseUrl = 'https://image.tmdb.org/t/p/original';
 
 const TmdbDetails = ({navigation}) => {
   const media = navigation.getParam('media');
-  console.log(`Loading details for: ${media.item.type}`);
+  const [state, setDetails] = useState(media.item);
+
+  const runAsyncQuery = async (endpoint, id, mapper) => {
+    console.log(`runAsyncQuery: ${endpoint} id: ${id}`);
+    try {
+      const detailsResponse = await tmdb_api.get(`${endpoint}/${id}`);
+      const {runtime, status} = detailsResponse.data;
+      const newState = {...state, ...{runtime: runtime, status: status}};
+      console.log(`newState: ${JSON.stringify(newState)}`);
+      setDetails(newState);
+
+      const credits = await tmdb_api.get(`${endpoint}/${id}/credits`);
+      const cast = credits.data.cast.map((c) => {
+        return {name: c.name, imageUrl: c.profile_path};
+      });
+      setDetails({...state, ...{cast: cast}});
+    } catch (e) {
+      console.log(`Something went wrong: ${e}`);
+    }
+  };
+
+  const loadDetails = (media) => {
+    let endpoint = '/movie';
+
+    switch (media.type) {
+      case MediaType.TV:
+        endpoint = '/tv';
+        break;
+      case MediaType.MOVIE:
+        endpoint = '/movie';
+        break;
+    }
+
+    runAsyncQuery(endpoint, media.item.id);
+  };
+
+  useEffect(() => {
+    loadDetails(media);
+  }, []);
+
+  console.log(`build: ${JSON.stringify(state)}`);
   return (
     <ScrollView>
       <View>
         <Image
           style={styles.image}
           source={{
-            uri: `${imagesBaseUrl}${media.item.backdropImage}`,
+            uri: `${imagesBaseUrl}${state.backdropImage}`,
           }}
         />
-        <View style={styles.detailsSection}>
-          <Image
-            style={styles.detailsImage}
-            source={{
-              uri: `${imagesBaseUrl}${media.item.imageUrl}`,
-            }}
-          />
-          <View style={styles.detailsBox}>
-            <Text style={styles.detailsText}>
-              Release: {media.item.releaseDate}
-            </Text>
-            <Text style={styles.detailsText}>
-              Runtime: {media.item.reviews}
-            </Text>
-            <Text style={styles.detailsText}>
-              Rating: {media.item.rating} / 10
-            </Text>
-            <Text style={styles.detailsText}>
-              Reviews: {media.item.reviews}
-            </Text>
-            <Text style={styles.detailsText}>Status: {media.item.reviews}</Text>
+        <View style={styles.detailsCard}>
+          <View style={styles.detailsSection}>
+            <Image
+              style={styles.detailsImage}
+              source={{
+                uri: `${imagesBaseUrl}${state.imageUrl}`,
+              }}
+            />
+            <View style={styles.detailsBox}>
+              <Text style={styles.detailsText}>
+                Release: {state.releaseDate}
+              </Text>
+              <Text style={styles.detailsText}>Runtime: {state.runtime}</Text>
+              <Text style={styles.detailsText}>
+                Rating: {state.rating} / 10
+              </Text>
+              <Text style={styles.detailsText}>Reviews: {state.reviews}</Text>
+              <Text style={styles.detailsText}>Status: {state.status}</Text>
+            </View>
+          </View>
+          <View style={styles.overviewBox}>
+            <Text style={styles.overviewTitle}>Overview</Text>
+            <Text style={styles.overviewText}>{state.description}</Text>
           </View>
         </View>
+
+        {state.cast ? (
+          <View style={styles.detailsCard}>
+            <Text style={styles.overviewTitle}> Cast</Text>
+            <FlatList
+              data={state.cast.filter((e) => e.imageUrl !== null)}
+              keyExtractor={(e) => e.name}
+              horizontal={true}
+              renderItem={(c) => {
+                return (
+                  <CastImageItem
+                    imageUrl={`${castBaseUrl}${c.item.imageUrl}`}
+                    title={c.item.name}
+                    onPress={() => {
+                      console.log(`onPress: ${c.item.name}`);
+                    }}
+                  />
+                );
+              }}
+            />
+          </View>
+        ) : null}
       </View>
     </ScrollView>
   );
@@ -52,9 +119,9 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
   },
-  detailsSection: {
+  detailsCard: {
+    padding: 8,
     backgroundColor: '#e5e5e5',
-    flexDirection: 'row',
     margin: 8,
     borderRadius: 10,
     shadowColor: '#000',
@@ -63,11 +130,13 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
     elevation: 2,
   },
+  detailsSection: {
+    flexDirection: 'row',
+  },
   detailsImage: {
     width: screenWidth * 0.33,
     height: screenWidth * 0.33 * (4 / 3),
-    borderTopLeftRadius: 10,
-    borderBottomLeftRadius: 10,
+    borderRadius: 10,
   },
   detailsBox: {
     flexDirection: 'column',
@@ -80,11 +149,28 @@ const styles = StyleSheet.create({
   },
   detailsText: {
     fontSize: 18,
-    marginVertical: 4,
+    fontWeight: 'bold',
+    marginVertical: 2,
   },
   image: {
     width: screenWidth,
     height: screenWidth * (9 / 16),
+  },
+  overviewBox: {
+    marginHorizontal: 8,
+    marginVertical: 8,
+    fontSize: 16,
+    borderTopWidth: 0.5,
+    borderTopColor: 'black',
+  },
+  overviewTitle: {
+    marginTop: 4,
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  overviewText: {
+    marginTop: 4,
+    fontSize: 16,
   },
 });
 
