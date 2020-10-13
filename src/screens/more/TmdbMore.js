@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, StyleSheet, FlatList} from 'react-native';
+import {View, FlatList} from 'react-native';
 import {withNavigation} from 'react-navigation';
 import tmdb_api from '../../api/tmdb_api';
 import {Category, mapMovieToMedia, mapTvShowToMedia} from '../../utils/Utils';
@@ -61,7 +61,7 @@ const TmdbMore = ({navigation}) => {
 
   useEffect(() => {
     loadMedias(page);
-  }, []);
+  });
 
   const navigateToDetailsScreen = (media) => {
     navigation.navigate('Details', {media: media});
@@ -86,11 +86,5 @@ const TmdbMore = ({navigation}) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  title: {
-    fontSize: 18,
-  },
-});
 
 export default withNavigation(TmdbMore);

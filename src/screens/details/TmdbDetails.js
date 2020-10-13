@@ -43,7 +43,7 @@ const TmdbDetails = ({navigation}) => {
     }
   };
 
-  const loadDetails = (media) => {
+  const loadDetails = () => {
     let endpoint = '/movie';
 
     switch (media.type) {
@@ -60,7 +60,7 @@ const TmdbDetails = ({navigation}) => {
 
   useEffect(() => {
     loadDetails(media);
-  }, []);
+  });
 
   console.log(`build: ${JSON.stringify(state)}`);
   return (
@@ -75,13 +75,7 @@ const TmdbDetails = ({navigation}) => {
           />
           {state.companies && state.companies.length > 0 ? (
             <Image
-              style={{
-                height: 64,
-                width: 64,
-                position: 'absolute',
-                bottom: 0,
-                marginLeft: 8,
-              }}
+              style={styles.flag}
               source={{
                 uri: `https://www.countryflags.io/${state.companies[0].origin_country}/shiny/64.png`,
               }}
@@ -217,6 +211,13 @@ const styles = StyleSheet.create({
   overviewText: {
     marginTop: 4,
     fontSize: 16,
+  },
+  flag: {
+    height: 64,
+    width: 64,
+    position: 'absolute',
+    bottom: 0,
+    marginLeft: 8,
   },
 });
 
