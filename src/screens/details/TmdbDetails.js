@@ -6,6 +6,7 @@ import {FlatList, ScrollView} from 'react-native-gesture-handler';
 import tmdb_api from '../../api/tmdb_api';
 import {MediaType} from '../../utils/Utils';
 import CastImageItem from '../../components/CastImageItem';
+import VideoItem from '../../components/VideoItem';
 const screenWidth = Dimensions.get('screen').width;
 const imagesBaseUrl = 'https://image.tmdb.org/t/p/w500';
 const castBaseUrl = 'https://image.tmdb.org/t/p/original';
@@ -13,21 +14,30 @@ const castBaseUrl = 'https://image.tmdb.org/t/p/original';
 const TmdbDetails = ({navigation}) => {
   const media = navigation.getParam('media');
   const [state, setDetails] = useState(media.item);
-
   const runAsyncQuery = async (endpoint, id, mapper) => {
-    console.log(`runAsyncQuery: ${endpoint} id: ${id}`);
     try {
       const detailsResponse = await tmdb_api.get(`${endpoint}/${id}`);
-      const {runtime, status} = detailsResponse.data;
-      const newState = {...state, ...{runtime: runtime, status: status}};
-      console.log(`newState: ${JSON.stringify(newState)}`);
-      setDetails(newState);
+      console.log(`runAsyncQuery: ${JSON.stringify(detailsResponse.data)}`);
+
+      const {runtime, status, production_companies} = detailsResponse.data;
+      const newState = {
+        ...state,
+        ...{runtime: runtime, status: status, companies: production_companies},
+      };
+      //   console.log(`newState: ${JSON.stringify(newState)}`);
 
       const credits = await tmdb_api.get(`${endpoint}/${id}/credits`);
       const cast = credits.data.cast.map((c) => {
         return {name: c.name, imageUrl: c.profile_path};
       });
-      setDetails({...state, ...{cast: cast}});
+
+      const videos = await tmdb_api.get(`${endpoint}/${id}/videos`);
+      console.log(`Videos: ${JSON.stringify(videos.data.results)}`);
+      setDetails({
+        ...state,
+        ...newState,
+        ...{videos: videos.data.results, cast: cast},
+      });
     } catch (e) {
       console.log(`Something went wrong: ${e}`);
     }
@@ -56,12 +66,28 @@ const TmdbDetails = ({navigation}) => {
   return (
     <ScrollView>
       <View>
-        <Image
-          style={styles.image}
-          source={{
-            uri: `${imagesBaseUrl}${state.backdropImage}`,
-          }}
-        />
+        <View>
+          <Image
+            style={styles.image}
+            source={{
+              uri: `${imagesBaseUrl}${state.backdropImage}`,
+            }}
+          />
+          {state.companies && state.companies.length > 0 ? (
+            <Image
+              style={{
+                height: 64,
+                width: 64,
+                position: 'absolute',
+                bottom: 0,
+                marginLeft: 8,
+              }}
+              source={{
+                uri: `https://www.countryflags.io/${state.companies[0].origin_country}/shiny/64.png`,
+              }}
+            />
+          ) : null}
+        </View>
         <View style={styles.detailsCard}>
           <View style={styles.detailsSection}>
             <Image
@@ -87,7 +113,6 @@ const TmdbDetails = ({navigation}) => {
             <Text style={styles.overviewText}>{state.description}</Text>
           </View>
         </View>
-
         {state.cast ? (
           <View style={styles.detailsCard}>
             <Text style={styles.overviewTitle}> Cast</Text>
@@ -103,6 +128,27 @@ const TmdbDetails = ({navigation}) => {
                     onPress={() => {
                       console.log(`onPress: ${c.item.name}`);
                     }}
+                  />
+                );
+              }}
+            />
+          </View>
+        ) : null}
+        {state.videos ? (
+          <View style={styles.detailsCard}>
+            <Text style={styles.overviewTitle}>Videos</Text>
+            <FlatList
+              data={state.videos}
+              keyExtractor={(v) => v.id}
+              horizontal={true}
+              renderItem={(video) => {
+                console.log(`video: ${JSON.stringify(video)}`);
+                return (
+                  <VideoItem
+                    site={video.item.site}
+                    videoKey={video.item.key}
+                    thumbnail={`${imagesBaseUrl}/${state.backdropImage}`}
+                    controls={true}
                   />
                 );
               }}

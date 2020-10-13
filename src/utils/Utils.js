@@ -41,6 +41,7 @@ const createMedia = (
   type,
   backdropPath,
   release_date,
+  original_language,
   videos,
   cast,
   runtime,
@@ -55,6 +56,7 @@ const createMedia = (
     type: type,
     backdropImage: backdropPath,
     releaseDate: release_date,
+    lang: original_language,
     videos,
     cast,
     runtime,
@@ -72,6 +74,7 @@ export const mapTvShowToMedia = (tvShow) => {
     MediaType.TV,
     tvShow.backdrop_path,
     tvShow.release_date,
+    tvShow.original_language,
   );
 };
 
@@ -87,5 +90,6 @@ export const mapMovieToMedia = (movie) => {
     MediaType.MOVIE,
     movie.backdrop_path,
     movie.release_date,
+    movie.original_language,
   );
 };
