@@ -4,6 +4,14 @@ import GenereListWrapper from '../../components/GenereListWrapper';
 import tmdb_api from '../../api/tmdb_api';
 import {mapTvShowToMedia, mapMovieToMedia} from '../../utils/Utils';
 import {Category, mapCategoryToText} from '../../utils/Utils';
+import {
+  getTopRated,
+  getPopularMovie,
+  getNowPlayingMovie,
+  getUpcomingMovie,
+  getPopularTv,
+  getTopRatedTv,
+} from '../../api/TmdbEndpoint';
 const TmdbMain = ({navigation}) => {
   const [topRated, setTopRated] = useState({category: '', items: []});
   const [mostPopular, setMostPopular] = useState({category: '', items: []});
@@ -15,47 +23,38 @@ const TmdbMain = ({navigation}) => {
   const fetchMovies = async () => {
     console.log('Fetching movies');
     try {
-      tmdb_api.get('/movie/top_rated').then((resp) => {
-        // console.log(`TopRated: ${resp.data}`);
-        setTopRated({
-          category: Category.TOP_MOVIE,
-          items: resp.data.results.map((movie) => mapMovieToMedia(movie)),
-        });
+      const topRatedResponse = await getTopRated();
+      setTopRated({
+        category: Category.TOP_MOVIE,
+        items: topRatedResponse,
       });
-      tmdb_api.get('/movie/popular').then((resp) => {
-        // console.log(`Popular: ${resp.data}`);
-        setMostPopular({
-          category: Category.POPULAR_MOVIE,
-          items: resp.data.results.map((movie) => mapMovieToMedia(movie)),
-        });
+      const popularResp = await getPopularMovie();
+      setMostPopular({
+        category: Category.POPULAR_MOVIE,
+        items: popularResp,
       });
-      tmdb_api.get('/movie/now_playing').then((resp) => {
-        // console.log(`NowPlaying: ${resp.data}`);
-        setNowPlaying({
-          category: Category.PLAYING_MOVIE,
-          items: resp.data.results.map((movie) => mapMovieToMedia(movie)),
-        });
+
+      const getNowPlayingReponse = await getNowPlayingMovie();
+      setNowPlaying({
+        category: Category.PLAYING_MOVIE,
+        items: getNowPlayingReponse,
       });
-      tmdb_api.get('/movie/upcoming').then((resp) => {
-        // console.log(`Upcoming: ${resp.data}`);
-        setUpComing({
-          category: Category.UPCOMING_MOVIE,
-          items: resp.data.results.map((movie) => mapMovieToMedia(movie)),
-        });
+      const getUpComeingResponse = await getUpcomingMovie();
+      setUpComing({
+        category: Category.UPCOMING_MOVIE,
+        items: getUpComeingResponse,
       });
-      tmdb_api.get('/tv/popular').then((resp) => {
-        // console.log(`Tv: ${resp.data}`);
-        setTv({
-          category: Category.POPULAR_TV,
-          items: resp.data.results.map((tvShow) => mapTvShowToMedia(tvShow)),
-        });
+
+      const popularTvResponse = await getPopularTv();
+      setTv({
+        category: Category.POPULAR_TV,
+        items: popularTvResponse,
       });
-      tmdb_api.get('/tv/top_rated').then((resp) => {
-        console.log(`Tv: ${JSON.stringify(resp.data)}`);
-        setTopRatedTv({
-          category: Category.TOP_TV,
-          items: resp.data.results.map((tvShow) => mapTvShowToMedia(tvShow)),
-        });
+
+      const topRatedTvResponse = await getTopRatedTv();
+      setTopRatedTv({
+        category: Category.TOP_TV,
+        items: topRatedTvResponse,
       });
     } catch (e) {
       console.log(`Something went wrong: ${e}`);
