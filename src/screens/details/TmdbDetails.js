@@ -6,7 +6,6 @@ import {FlatList, ScrollView} from 'react-native-gesture-handler';
 import tmdb_api from '../../api/tmdb_api';
 import {MediaType} from '../../utils/Utils';
 import CastImageItem from '../../components/CastImageItem';
-import VideoItem from '../../components/VideoItem';
 import YouTubeVideoItem from '../../components/YouTubeVideoItem';
 
 const screenWidth = Dimensions.get('screen').width;
