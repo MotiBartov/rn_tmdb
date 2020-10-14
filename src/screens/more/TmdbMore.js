@@ -61,7 +61,8 @@ const TmdbMore = ({navigation}) => {
 
   useEffect(() => {
     loadMedias(page);
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const navigateToDetailsScreen = (media) => {
     navigation.navigate('Details', {media: media});

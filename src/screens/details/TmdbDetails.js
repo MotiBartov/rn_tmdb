@@ -7,6 +7,8 @@ import tmdb_api from '../../api/tmdb_api';
 import {MediaType} from '../../utils/Utils';
 import CastImageItem from '../../components/CastImageItem';
 import VideoItem from '../../components/VideoItem';
+import YouTubeVideoItem from '../../components/YouTubeVideoItem';
+
 const screenWidth = Dimensions.get('screen').width;
 const imagesBaseUrl = 'https://image.tmdb.org/t/p/w500';
 const castBaseUrl = 'https://image.tmdb.org/t/p/original';
@@ -43,7 +45,7 @@ const TmdbDetails = ({navigation}) => {
     }
   };
 
-  const loadDetails = () => {
+  const loadDetails = async () => {
     let endpoint = '/movie';
 
     switch (media.type) {
@@ -60,7 +62,8 @@ const TmdbDetails = ({navigation}) => {
 
   useEffect(() => {
     loadDetails(media);
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   console.log(`build: ${JSON.stringify(state)}`);
   return (
@@ -128,24 +131,13 @@ const TmdbDetails = ({navigation}) => {
             />
           </View>
         ) : null}
-        {state.videos ? (
+        {state.videos && state.videos.length > 0 ? (
           <View style={styles.detailsCard}>
-            <Text style={styles.overviewTitle}>Videos</Text>
-            <FlatList
-              data={state.videos}
-              keyExtractor={(v) => v.id}
-              horizontal={true}
-              renderItem={(video) => {
-                console.log(`video: ${JSON.stringify(video)}`);
-                return (
-                  <VideoItem
-                    site={video.item.site}
-                    videoKey={video.item.key}
-                    thumbnail={`${imagesBaseUrl}/${state.backdropImage}`}
-                    controls={true}
-                  />
-                );
-              }}
+            <Text style={styles.overviewTitle}>Trailer</Text>
+            <YouTubeVideoItem
+              videoKey={state.videos[0].key}
+              thumbnail={`${imagesBaseUrl}/${state.backdropImage}`}
+              controls={true}
             />
           </View>
         ) : null}

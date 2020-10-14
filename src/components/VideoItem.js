@@ -2,6 +2,7 @@ import React from 'react';
 import {View, StyleSheet, Image} from 'react-native';
 import {Dimensions} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import YouTube from 'react-native-youtube';
 
 const screen = Dimensions.get('screen');
 
