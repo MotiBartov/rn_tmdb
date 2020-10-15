@@ -1,8 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {View, StyleSheet, ScrollView} from 'react-native';
 import GenereListWrapper from '../../components/GenereListWrapper';
-import tmdb_api from '../../api/tmdb_api';
-import {mapTvShowToMedia, mapMovieToMedia} from '../../utils/Utils';
 import {Category, mapCategoryToText} from '../../utils/Utils';
 import {
   getTopRated,

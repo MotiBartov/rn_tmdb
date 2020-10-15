@@ -7,6 +7,7 @@ import tmdb_api from '../../api/tmdb_api';
 import {MediaType} from '../../utils/Utils';
 import CastImageItem from '../../components/CastImageItem';
 import YouTubeVideoItem from '../../components/YouTubeVideoItem';
+import {getMediaById, getCast, getVideos} from '../../api/TmdbEndpoint';
 
 const screenWidth = Dimensions.get('screen').width;
 const imagesBaseUrl = 'https://image.tmdb.org/t/p/w500';
@@ -15,52 +16,31 @@ const castBaseUrl = 'https://image.tmdb.org/t/p/original';
 const TmdbDetails = ({navigation}) => {
   const media = navigation.getParam('media');
   const [state, setDetails] = useState(media.item);
-  const runAsyncQuery = async (endpoint, id, mapper) => {
+  const runAsyncQuery = async (type, id) => {
     try {
-      const detailsResponse = await tmdb_api.get(`${endpoint}/${id}`);
-      console.log(`runAsyncQuery: ${JSON.stringify(detailsResponse.data)}`);
+      const detailsResponse = await getMediaById(type, id);
+      console.log(`runAsyncQuery: ${JSON.stringify(detailsResponse)}`);
 
-      const {runtime, status, production_companies} = detailsResponse.data;
+      const {runtime, status, production_companies} = detailsResponse;
       const newState = {
         ...state,
         ...{runtime: runtime, status: status, companies: production_companies},
       };
-      //   console.log(`newState: ${JSON.stringify(newState)}`);
 
-      const credits = await tmdb_api.get(`${endpoint}/${id}/credits`);
-      const cast = credits.data.cast.map((c) => {
-        return {name: c.name, imageUrl: c.profile_path};
-      });
-
-      const videos = await tmdb_api.get(`${endpoint}/${id}/videos`);
-      console.log(`Videos: ${JSON.stringify(videos.data.results)}`);
+      const cast = await getCast(type, id);
+      const videos = await getVideos(type, id);
       setDetails({
         ...state,
         ...newState,
-        ...{videos: videos.data.results, cast: cast},
+        ...{videos: videos, cast: cast},
       });
     } catch (e) {
       console.log(`Something went wrong: ${e}`);
     }
   };
 
-  const loadDetails = async () => {
-    let endpoint = '/movie';
-
-    switch (media.type) {
-      case MediaType.TV:
-        endpoint = '/tv';
-        break;
-      case MediaType.MOVIE:
-        endpoint = '/movie';
-        break;
-    }
-
-    runAsyncQuery(endpoint, media.item.id);
-  };
-
   useEffect(() => {
-    loadDetails(media);
+    runAsyncQuery(media.item.type, media.item.id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
