@@ -2,25 +2,22 @@ import React from 'react';
 import {View, Text, StyleSheet, FlatList} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import MovieListItem from './MovieListItem';
-
-const GenereListWrapper = ({
-  genereTitle,
-  mediaList,
-  onPressed,
-  onMorePressed,
-}) => {
+import {mapCategoryToText} from '../utils/Utils';
+const GenereListWrapper = ({genre, onPressed, onMorePressed}) => {
   //   console.log(`GenereListWrapper: ${JSON.stringify(mediaList)}`);
 
   return (
     <View style={styles.component}>
       <View style={styles.titleRow}>
-        <Text style={styles.titleText}>{genereTitle}</Text>
+        <Text style={styles.titleText}>
+          {mapCategoryToText(genre.category)}
+        </Text>
         <TouchableOpacity onPress={onMorePressed}>
           <Text style={styles.titleText}>More</Text>
         </TouchableOpacity>
       </View>
       <FlatList
-        data={mediaList}
+        data={genre.items}
         keyExtractor={(media) => `${media.id}`}
         horizontal={true}
         renderItem={(media) => (

@@ -1,6 +1,10 @@
 import api from './tmdb_api';
 import {mapMovieToMedia, mapTvShowToMedia} from '../utils/Utils';
-import {MediaType} from '../utils/Utils';
+import {Category} from '../model/Category';
+import {MediaType} from '../model/MediaType';
+const movieMapper = (movie) => mapMovieToMedia(movie);
+const tvMapper = (tvShow) => mapTvShowToMedia(tvShow);
+
 const catchAsync = async (operation) => {
   try {
     return await operation();
@@ -10,46 +14,44 @@ const catchAsync = async (operation) => {
   }
 };
 
-const runGetQuery = async (endpoint, props) => {
-  return api.get(endpoint, props ? {props: props} : null);
+const runGetQuery = async (endpoint, p) => {
+  return api.get(endpoint, p ? {params: p} : null);
 };
 
-const movieMapper = (movie) => mapMovieToMedia(movie);
-const tvMapper = (tvShow) => mapTvShowToMedia(tvShow);
-
-export const getTopRated = async () =>
+export const getTopRated = async (page = 1) =>
   catchAsync(async () => {
-    const response = await runGetQuery('/movie/top_rated');
+    console.log(`getTopRated: ${page}`);
+    const response = await runGetQuery('/movie/top_rated', {page: page});
     return response.data.results.map(movieMapper);
   });
 
-export const getPopularMovie = async () =>
+export const getPopularMovie = async (page = 1) =>
   catchAsync(async () => {
-    const response = await runGetQuery('/movie/popular');
+    const response = await runGetQuery('/movie/popular', {page: page});
     return response.data.results.map(movieMapper);
   });
 
-export const getNowPlayingMovie = async () =>
+export const getNowPlayingMovie = async (page = 1) =>
   catchAsync(async () => {
-    const response = await runGetQuery('/movie/now_playing');
+    const response = await runGetQuery('/movie/now_playing', {page: page});
     return response.data.results.map(movieMapper);
   });
 
-export const getUpcomingMovie = async () =>
+export const getUpcomingMovie = async (page = 1) =>
   catchAsync(async () => {
-    const response = await runGetQuery('/movie/upcoming');
+    const response = await runGetQuery('/movie/upcoming', {page: page});
     return response.data.results.map(movieMapper);
   });
 
-export const getPopularTv = async () =>
+export const getPopularTv = async (page = 1) =>
   catchAsync(async () => {
-    const response = await runGetQuery('/tv/popular');
+    const response = await runGetQuery('/tv/popular', {page: page});
     return response.data.results.map(tvMapper);
   });
 
-export const getTopRatedTv = async () =>
+export const getTopRatedTv = async (page = 1) =>
   catchAsync(async () => {
-    const response = await runGetQuery('/tv/top_rated');
+    const response = await runGetQuery('/tv/top_rated', {page: page});
     return response.data.results.map(tvMapper);
   });
 
@@ -122,3 +124,20 @@ export const getTvVideos = async (id) =>
     const response = await runGetQuery(`/tv/${id}/videos`);
     return response.data.results;
   });
+
+export const loadMedia = async (category = Category.TOP_TV, page = 1) => {
+  switch (category) {
+    case Category.TOP_MOVIE:
+      return await getTopRated(page);
+    case Category.POPULAR_MOVIE:
+      return await getPopularMovie(page);
+    case Category.PLAYING_MOVIE:
+      return await getNowPlayingMovie(page);
+    case Category.UPCOMING_MOVIE:
+      return await getUpcomingMovie(page);
+    case Category.TOP_TV:
+      return await getTopRatedTv(page);
+    case Category.POPULAR_TV:
+      return await getPopularTv(page);
+  }
+};

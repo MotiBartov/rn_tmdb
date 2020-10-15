@@ -3,8 +3,6 @@ import {View, StyleSheet, Text, Image} from 'react-native';
 import {withNavigation} from 'react-navigation';
 import {Dimensions} from 'react-native';
 import {FlatList, ScrollView} from 'react-native-gesture-handler';
-import tmdb_api from '../../api/tmdb_api';
-import {MediaType} from '../../utils/Utils';
 import CastImageItem from '../../components/CastImageItem';
 import YouTubeVideoItem from '../../components/YouTubeVideoItem';
 import {getMediaById, getCast, getVideos} from '../../api/TmdbEndpoint';

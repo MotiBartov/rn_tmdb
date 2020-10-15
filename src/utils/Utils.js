@@ -1,17 +1,6 @@
-export const MediaType = {
-  MOVIE: 'movie',
-  TV: 'tv',
-};
-
-export const Category = {
-  TOP_MOVIE: 'top_rated',
-  POPULAR_MOVIE: 'popular',
-  PLAYING_MOVIE: 'now_playing',
-  UPCOMING_MOVIE: 'upcoming',
-  POPULAR_TV: 'popular_tv',
-  TOP_TV: 'top_rated_tv',
-};
-
+import {Category} from '../model/Category';
+import {MediaType} from '../model/MediaType';
+import {createMedia} from '../model/Media';
 export const mapCategoryToText = (category) => {
   switch (category) {
     case Category.TOP_MOVIE:
@@ -31,38 +20,6 @@ export const mapCategoryToText = (category) => {
   }
 };
 
-const createMedia = (
-  title,
-  imageUrl,
-  id,
-  description,
-  rating,
-  reviews,
-  type,
-  backdropPath,
-  release_date,
-  original_language,
-  videos,
-  cast,
-  runtime,
-) => {
-  return {
-    title: title,
-    imageUrl: imageUrl,
-    id: id,
-    description: description,
-    rating: rating,
-    reviews: reviews,
-    type: type,
-    backdropImage: backdropPath,
-    releaseDate: release_date,
-    lang: original_language,
-    videos,
-    cast,
-    runtime,
-  };
-};
-
 export const mapTvShowToMedia = (tvShow) => {
   return createMedia(
     tvShow.name,
@@ -79,7 +36,7 @@ export const mapTvShowToMedia = (tvShow) => {
 };
 
 export const mapMovieToMedia = (movie) => {
-  console.log(`mapMovieToMedia: ${JSON.stringify(movie)}`);
+  //   console.log(`mapMovieToMedia: ${JSON.stringify(movie)}`);
   return createMedia(
     movie.title,
     movie.poster_path,

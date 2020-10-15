@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {View, StyleSheet, ScrollView} from 'react-native';
 import GenereListWrapper from '../../components/GenereListWrapper';
-import {Category, mapCategoryToText} from '../../utils/Utils';
+import {Category} from '../../model/Category';
 import {
   getTopRated,
   getPopularMovie,
@@ -72,63 +72,25 @@ const TmdbMain = ({navigation}) => {
     navigation.navigate('More', {category: category});
   };
 
+  const RenderGenreWrappedList = ({genre}) => {
+    return genre.items.length > 0 ? (
+      <GenereListWrapper
+        genre={genre}
+        onPressed={onItemPressed}
+        onMorePressed={() => navigateToMoreScreen(genre.category)}
+      />
+    ) : null;
+  };
+
   return (
     <ScrollView>
       <View style={styles.view}>
-        <GenereListWrapper
-          genereTitle={mapCategoryToText(topRated.category)}
-          mediaList={topRated.items}
-          onPressed={onItemPressed}
-          onMorePressed={() => {
-            console.log('onMorePressed: Top Rated Movies');
-            navigateToMoreScreen(topRated.category);
-          }}
-        />
-        <GenereListWrapper
-          genereTitle={mapCategoryToText(mostPopular.category)}
-          mediaList={mostPopular.items}
-          onPressed={onItemPressed}
-          onMorePressed={() => {
-            console.log('onMorePressed: Most Popular Movies');
-            navigateToMoreScreen(mostPopular.category);
-          }}
-        />
-        <GenereListWrapper
-          genereTitle={mapCategoryToText(nowPlaying.category)}
-          mediaList={nowPlaying.items}
-          onPressed={onItemPressed}
-          onMorePressed={() => {
-            console.log('onMorePressed: Now Playing Movies');
-            navigateToMoreScreen(nowPlaying.category);
-          }}
-        />
-        <GenereListWrapper
-          genereTitle={mapCategoryToText(upComing.category)}
-          mediaList={upComing.items}
-          onPressed={onItemPressed}
-          onMorePressed={() => {
-            console.log('onMorePressed: Up Coming Movies');
-            navigateToMoreScreen(upComing.category);
-          }}
-        />
-        <GenereListWrapper
-          genereTitle={mapCategoryToText(popularTv.category)}
-          mediaList={popularTv.items}
-          onPressed={onItemPressed}
-          onMorePressed={() => {
-            console.log('onMorePressed: Popular TV');
-            navigateToMoreScreen(popularTv.category);
-          }}
-        />
-        <GenereListWrapper
-          genereTitle={mapCategoryToText(topRatedTv.category)}
-          mediaList={topRatedTv.items}
-          onPressed={onItemPressed}
-          onMorePressed={() => {
-            console.log('onMorePressed: Top Rated TV');
-            navigateToMoreScreen(topRatedTv.category);
-          }}
-        />
+        <RenderGenreWrappedList genre={topRated} />
+        <RenderGenreWrappedList genre={mostPopular} />
+        <RenderGenreWrappedList genre={nowPlaying} />
+        <RenderGenreWrappedList genre={upComing} />
+        <RenderGenreWrappedList genre={popularTv} />
+        <RenderGenreWrappedList genre={topRatedTv} />
       </View>
     </ScrollView>
   );
