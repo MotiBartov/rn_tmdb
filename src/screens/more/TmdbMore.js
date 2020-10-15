@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {View, FlatList, Dimensions} from 'react-native';
+import {View, FlatList} from 'react-native';
 import {withNavigation} from 'react-navigation';
 import {loadMedia} from '../../api/TmdbEndpoint';
 import MovieListItem from '../../components/MovieListItem';
