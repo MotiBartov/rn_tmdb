@@ -1,4 +1,7 @@
-import {getMovieDetails as loadMovieDetails} from '../data/datasources/TmdbRemoteDataSource';
+import {
+  getMovieDetails as loadMovieDetails,
+  getTvDetails as loadTvDetails,
+} from '../data/datasources/TmdbRemoteDataSource';
 import {MediaType} from '../utils/Utils';
 
 const catchAsync = async (operation) => {
@@ -22,4 +25,4 @@ export const getMediaDetails = async (type, id) => {
 const getMovieDetails = async (id) =>
   await catchAsync(() => loadMovieDetails(id));
 
-const getTvDetails = async (id) => await catchAsync(() => getTvDetails(id));
+const getTvDetails = async (id) => await catchAsync(() => loadTvDetails(id));

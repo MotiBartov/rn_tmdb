@@ -1,7 +1,6 @@
 import api from './tmdb_api';
 import {mapMovieToMedia, mapTvShowToMedia} from '../utils/Utils';
 import {Category} from '../model/Category';
-import {MediaType} from '../model/MediaType';
 const movieMapper = (movie) => mapMovieToMedia(movie);
 const tvMapper = (tvShow) => mapTvShowToMedia(tvShow);
 
@@ -28,19 +27,9 @@ export const getMovieCast = async (id) =>
 export const getMovieVideos = async (id) =>
   await runGetQuery(`/movie/${id}/videos`);
 
-export const getTvCast = async (id) =>
-  catchAsync(async () => {
-    const response = await runGetQuery(`/tv/${id}/credits`);
-    return response.data.cast.map((c) => {
-      return {name: c.name, imageUrl: c.profile_path};
-    });
-  });
-
-export const getTvVideos = async (id) =>
-  catchAsync(async () => {
-    const response = await runGetQuery(`/tv/${id}/videos`);
-    return response.data.results;
-  });
+export const getTvById = async (id) => await runGetQuery(`/tv/${id}`);
+export const getTvCast = async (id) => await runGetQuery(`/tv/${id}/credits`);
+export const getTvVideos = async (id) => await runGetQuery(`/tv/${id}/videos`);
 
 export const getPopularMovie = async (page = 1) =>
   catchAsync(async () => {
@@ -81,13 +70,6 @@ export const getTopRatedTv = async (page = 1) =>
 //       return await getMovieById(id);
 //   }
 // };
-
-export const getTvById = async (id) =>
-  catchAsync(async () => {
-    const response = await runGetQuery(`/tv/${id}`);
-    // console.log(`getMovieById: ${JSON.stringify(response)}`);
-    return response.data;
-  });
 
 export const loadMedia = async (category = Category.TOP_TV, page = 1) => {
   switch (category) {
