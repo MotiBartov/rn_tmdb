@@ -79,7 +79,7 @@ export const mapTvShowToMedia = (tvShow) => {
 };
 
 export const mapMovieToMedia = (movie) => {
-  console.log(`mapMovieToMedia: ${JSON.stringify(movie)}`);
+  //   console.log(`mapMovieToMedia: ${JSON.stringify(movie)}`);
   return createMedia(
     movie.title,
     movie.poster_path,

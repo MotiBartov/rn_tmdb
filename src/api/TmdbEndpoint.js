@@ -15,11 +15,24 @@ const catchAsync = async (operation) => {
 
 const runGetQuery = async (endpoint, p) =>
   api.get(endpoint, p ? {params: p} : null);
+
 export const getTopRated = async (page = 1) =>
-  catchAsync(async () => {
-    const response = await runGetQuery('/movie/top_rated', {page: page});
-    return response.data;
-  });
+  await runGetQuery('/movie/top_rated', {page: page});
+
+export const getPopularMovie = async (page = 1) =>
+  await runGetQuery('/movie/popular', {page: page});
+
+export const getNowPlaying = async (page = 1) =>
+  await runGetQuery('/movie/now_playing', {page: page});
+
+export const getUpComing = async (page = 1) =>
+  await runGetQuery('/movie/upcoming', {page: page});
+
+export const getPopularTv = async (page = 1) =>
+  await runGetQuery('/tv/popular', {page: page});
+
+export const getTopRatedTv = async (page = 1) =>
+  await runGetQuery('/tv/top_rated', {page: page});
 
 export const getMovieById = async (id) => await runGetQuery(`/movie/${id}`);
 export const getMovieCast = async (id) =>
@@ -30,36 +43,6 @@ export const getMovieVideos = async (id) =>
 export const getTvById = async (id) => await runGetQuery(`/tv/${id}`);
 export const getTvCast = async (id) => await runGetQuery(`/tv/${id}/credits`);
 export const getTvVideos = async (id) => await runGetQuery(`/tv/${id}/videos`);
-
-export const getPopularMovie = async (page = 1) =>
-  catchAsync(async () => {
-    const response = await runGetQuery('/movie/popular', {page: page});
-    return response.data;
-  });
-
-export const getNowPlayingMovie = async (page = 1) =>
-  catchAsync(async () => {
-    const response = await runGetQuery('/movie/now_playing', {page: page});
-    return response.data;
-  });
-
-export const getUpcomingMovie = async (page = 1) =>
-  catchAsync(async () => {
-    const response = await runGetQuery('/movie/upcoming', {page: page});
-    return response.data;
-  });
-
-export const getPopularTv = async (page = 1) =>
-  catchAsync(async () => {
-    const response = await runGetQuery('/tv/popular', {page: page});
-    return response.data;
-  });
-
-export const getTopRatedTv = async (page = 1) =>
-  catchAsync(async () => {
-    const response = await runGetQuery('/tv/top_rated', {page: page});
-    return response.data;
-  });
 
 // export const getMediaById = async (type, id) => {
 //   console.log(`getMediaById: ${type}`);
@@ -78,9 +61,9 @@ export const loadMedia = async (category = Category.TOP_TV, page = 1) => {
     case Category.POPULAR_MOVIE:
       return await getPopularMovie(page);
     case Category.PLAYING_MOVIE:
-      return await getNowPlayingMovie(page);
+      return await getNowPlaying(page);
     case Category.UPCOMING_MOVIE:
-      return await getUpcomingMovie(page);
+      return await getPopularTv(page);
     case Category.TOP_TV:
       return await getTopRatedTv(page);
     case Category.POPULAR_TV:

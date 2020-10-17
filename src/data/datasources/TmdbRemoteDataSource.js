@@ -5,7 +5,16 @@ import {
   getTvById,
   getTvCast,
   getTvVideos,
+  getTopRated as loadTopRated,
+  getPopularMovie as loadMostPopular,
+  getNowPlaying as loadNowPlaying,
+  getUpComing as loadUpComing,
+  getPopularTv as loadPopularTv,
+  getTopRatedTv as loadTopRatedTv,
 } from '../../api/TmdbEndpoint';
+import {mapMovieToMedia, mapTvShowToMedia} from '../../utils/Utils';
+const movieMapper = (movie) => mapMovieToMedia(movie);
+const tvMapper = (tvShow) => mapTvShowToMedia(tvShow);
 
 export const getMovieDetails = async (movieId) => {
   const detailsResponse = await getMovieById(movieId);
@@ -46,4 +55,33 @@ export const getTvDetails = async (tvId) => {
     companies: production_companies,
     ...{videos: videos, cast: cast},
   };
+};
+
+export const getTopRated = async (page = 1) => {
+  const response = await loadTopRated(page);
+  return response.data.results.map(movieMapper);
+};
+export const getMostPopular = async (page = 1) => {
+  const response = await loadMostPopular(page);
+  return response.data.results.map(movieMapper);
+};
+
+export const getNowPlaying = async (page = 1) => {
+  const response = await loadNowPlaying(page);
+  return response.data.results.map(movieMapper);
+};
+
+export const getUpComing = async (page = 1) => {
+  const response = await loadUpComing(page);
+  return response.data.results.map(movieMapper);
+};
+
+export const getPopularTv = async (page = 1) => {
+  const response = await loadPopularTv(page);
+  return response.data.results.map(tvMapper);
+};
+
+export const getTopRatedTv = async (page = 1) => {
+  const response = await loadTopRatedTv(page);
+  return response.data.results.map(tvMapper);
 };

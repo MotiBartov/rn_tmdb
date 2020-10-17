@@ -1,14 +1,14 @@
 import {useEffect, useState} from 'react';
 import {Category} from '../../model/Category';
+
 import {
   getTopRated,
-  getPopularMovie,
-  getNowPlayingMovie,
-  getUpcomingMovie,
+  getMostPopular,
+  getNowPlaying,
+  getUpComing,
   getPopularTv,
   getTopRatedTv,
-} from '../../api/TmdbEndpoint';
-import {mapMovieToMedia, mapTvShowToMedia} from '../../utils/Utils';
+} from '../../data/Repository';
 
 export default () => {
   const [topRated, setTopRated] = useState({category: null, items: []});
@@ -19,8 +19,6 @@ export default () => {
   const [topRatedTv, setTopRatedTv] = useState({category: '', items: []});
   const [error, setError] = useState(null);
 
-  const movieMapper = (movie) => mapMovieToMedia(movie);
-  const tvMapper = (tvShow) => mapTvShowToMedia(tvShow);
   const exectueOperation = async (operation) => {
     const response = await operation();
     if (response.error) {
@@ -33,55 +31,51 @@ export default () => {
   const fetchMovies = async () => {
     console.log('Fetching movies');
 
-    await exectueOperation(() => getTopRated()).then((topRatedResponse) => {
+    await exectueOperation(() => getTopRated()).then((response) => {
       setTopRated({
         category: Category.TOP_MOVIE,
-        items: topRatedResponse.results.map(movieMapper),
+        items: response,
       });
     });
 
     console.log('TopRated');
-    await exectueOperation(() => getPopularMovie()).then((popularResp) => {
+    await exectueOperation(() => getMostPopular()).then((response) => {
       setMostPopular({
         category: Category.POPULAR_MOVIE,
-        items: popularResp.results.map(movieMapper),
+        items: response,
       });
     });
 
     console.log('Popular');
 
-    await exectueOperation(() => getNowPlayingMovie()).then(
-      (getNowPlayingReponse) => {
-        setNowPlaying({
-          category: Category.PLAYING_MOVIE,
-          items: getNowPlayingReponse.results.map(movieMapper),
-        });
-      },
-    );
+    await exectueOperation(() => getNowPlaying()).then((response) => {
+      setNowPlaying({
+        category: Category.PLAYING_MOVIE,
+        items: response,
+      });
+    });
     console.log('NowPlaying');
 
-    await exectueOperation(() => getUpcomingMovie()).then(
-      (getUpComeingResponse) => {
-        setUpComing({
-          category: Category.UPCOMING_MOVIE,
-          items: getUpComeingResponse.results.map(movieMapper),
-        });
-      },
-    );
+    await exectueOperation(() => getUpComing()).then((response) => {
+      setUpComing({
+        category: Category.UPCOMING_MOVIE,
+        items: response,
+      });
+    });
     console.log('UpComing');
 
-    await exectueOperation(() => getPopularTv()).then((popularTvResponse) => {
+    await exectueOperation(() => getPopularTv()).then((response) => {
       setTv({
         category: Category.POPULAR_TV,
-        items: popularTvResponse.results.map(tvMapper),
+        items: response,
       });
     });
 
     console.log('PopularTv');
-    await exectueOperation(() => getTopRatedTv()).then((topRatedTvResponse) => {
+    await exectueOperation(() => getTopRatedTv()).then((response) => {
       setTopRatedTv({
         category: Category.TOP_TV,
-        items: topRatedTvResponse.results.map(tvMapper),
+        items: response,
       });
     });
 
