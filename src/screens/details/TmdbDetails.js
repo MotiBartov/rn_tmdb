@@ -1,46 +1,18 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import {View, StyleSheet, Text, Image} from 'react-native';
 import {withNavigation} from 'react-navigation';
 import {Dimensions} from 'react-native';
 import {FlatList, ScrollView} from 'react-native-gesture-handler';
 import CastImageItem from '../../components/CastImageItem';
 import YouTubeVideoItem from '../../components/YouTubeVideoItem';
-import {getMediaById, getCast, getVideos} from '../../api/TmdbEndpoint';
-
+import useLoadDetails from './useLoadDetails';
 const screenWidth = Dimensions.get('screen').width;
 const imagesBaseUrl = 'https://image.tmdb.org/t/p/w500';
 const castBaseUrl = 'https://image.tmdb.org/t/p/original';
 
 const TmdbDetails = ({navigation}) => {
   const media = navigation.getParam('media');
-  const [state, setDetails] = useState(media.item);
-  const runAsyncQuery = async (type, id) => {
-    try {
-      const detailsResponse = await getMediaById(type, id);
-      console.log(`runAsyncQuery: ${JSON.stringify(detailsResponse)}`);
-
-      const {runtime, status, production_companies} = detailsResponse;
-      const newState = {
-        ...state,
-        ...{runtime: runtime, status: status, companies: production_companies},
-      };
-
-      const cast = await getCast(type, id);
-      const videos = await getVideos(type, id);
-      setDetails({
-        ...state,
-        ...newState,
-        ...{videos: videos, cast: cast},
-      });
-    } catch (e) {
-      console.log(`Something went wrong: ${e}`);
-    }
-  };
-
-  useEffect(() => {
-    runAsyncQuery(media.item.type, media.item.id);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const [state] = useLoadDetails(media.item);
 
   console.log(`build: ${JSON.stringify(state)}`);
   return (

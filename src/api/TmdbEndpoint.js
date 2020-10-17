@@ -121,4 +121,20 @@ export const getTvVideos = async (id) =>
     const response = await runGetQuery(`/tv/${id}/videos`);
     return response.data.results;
   });
+
+export const loadMedia = async (category = Category.TOP_TV, page = 1) => {
+  switch (category) {
+    case Category.TOP_MOVIE:
+      return await getTopRated(page);
+    case Category.POPULAR_MOVIE:
+      return await getPopularMovie(page);
+    case Category.PLAYING_MOVIE:
+      return await getNowPlayingMovie(page);
+    case Category.UPCOMING_MOVIE:
+      return await getUpcomingMovie(page);
+    case Category.TOP_TV:
+      return await getTopRatedTv(page);
+    case Category.POPULAR_TV:
+      return await getPopularTv(page);
+  }
 };
