@@ -1,34 +1,21 @@
 import {useEffect, useState} from 'react';
-import {getMediaById, getCast, getVideos} from '../../api/TmdbEndpoint';
+import {getMediaDetails} from '../../data/Repository';
 
 export default (media) => {
-  const [state, setDetails] = useState(media.item);
+  console.log(`useLoadDetails: ${JSON.stringify(media)}`);
+  const [state, setDetails] = useState(media);
 
   const runAsyncQuery = async (type, id) => {
-    try {
-      const detailsResponse = await getMediaById(type, id);
-      console.log(`runAsyncQuery: ${JSON.stringify(detailsResponse)}`);
+    const mediaDetails = await getMediaDetails(type, id);
 
-      const {runtime, status, production_companies} = detailsResponse;
-      const newState = {
-        ...state,
-        ...{runtime: runtime, status: status, companies: production_companies},
-      };
-
-      const cast = await getCast(type, id);
-      const videos = await getVideos(type, id);
-      setDetails({
-        ...state,
-        ...newState,
-        ...{videos: videos, cast: cast},
-      });
-    } catch (e) {
-      console.log(`Something went wrong: ${e}`);
-    }
+    setDetails({
+      ...state,
+      ...mediaDetails,
+    });
   };
 
   useEffect(() => {
-    runAsyncQuery(media.item.type, media.item.id);
+    runAsyncQuery(media.type, media.id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
