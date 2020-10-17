@@ -1,34 +1,13 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import {View, FlatList} from 'react-native';
 import {withNavigation} from 'react-navigation';
-import {loadMedia} from '../../api/TmdbEndpoint';
 import MovieListItem from '../../components/MovieListItem';
+import useLoadMore from './useLoadMore';
 
 const TmdbMore = ({navigation}) => {
   const itemsPerRow = 2;
   const category = navigation.getParam('category');
-  const [items, setItems] = useState([]);
-  const [page, setPage] = useState(1);
-  const [loading, setLoading] = useState(false);
-
-  const loadNextPage = async () => {
-    console.log('loadMoreData: ');
-    await loadMore(page + 1);
-    setPage(page + 1);
-  };
-
-  const loadMore = async (p) => {
-    setLoading(true);
-    console.log(`loadMore: page: ${p}`);
-    const response = await loadMedia(category, p);
-    setLoading(false);
-    setItems([...items, ...response]);
-  };
-
-  useEffect(() => {
-    loadMore(page);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const [items, loadNextPage, loading] = useLoadMore(category);
 
   const navigateToDetailsScreen = (media) => {
     navigation.navigate('Details', {media: media});

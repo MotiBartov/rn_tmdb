@@ -1,8 +1,7 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {View, StyleSheet, ScrollView} from 'react-native';
 import GenereListWrapper from '../../components/GenereListWrapper';
 import useLoadMovies from './useLoadMovies';
-import {Category} from '../../model/Category';
 
 const TmdbMain = ({navigation}) => {
   // const [topRated, setTopRated] = useState({category: '', items: []});
