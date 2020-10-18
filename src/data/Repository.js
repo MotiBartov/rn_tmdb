@@ -18,23 +18,15 @@ const catchAsync = async (operation) => {
   }
 };
 
-export const getTopRated = async (page = 1) =>
-  await catchAsync(() => loadTopRated(page));
+//Movies and TV
+export const getTopRated = async (page = 1) => await catchAsync(() => loadTopRated(page));
+export const getMostPopular = async (page = 1) => await catchAsync(() => loadMostPopular(page));
+export const getNowPlaying = async (page = 1) => await catchAsync(() => loadNowPlaying(page));
+export const getUpComing = async (page = 1) => await catchAsync(() => loadUpComing(page));
+export const getPopularTv = async (page = 1) => await catchAsync(() => loadPopularTv(page));
+export const getTopRatedTv = async (page = 1) => await catchAsync(() => loadTopRatedTv(page));
 
-export const getMostPopular = async (page = 1) =>
-  await catchAsync(() => loadMostPopular(page));
-
-export const getNowPlaying = async (page = 1) =>
-  await catchAsync(() => loadNowPlaying(page));
-
-export const getUpComing = async (page = 1) =>
-  await catchAsync(() => loadUpComing(page));
-
-export const getPopularTv = async (page = 1) =>
-  await catchAsync(() => loadPopularTv(page));
-export const getTopRatedTv = async (page = 1) =>
-  await catchAsync(() => loadTopRatedTv(page));
-
+//Media Details
 export const getMediaDetails = async (type, id) => {
   console.log(`Repository: getMediaDetails: ${type}, ${id}`);
   switch (type) {
@@ -45,9 +37,7 @@ export const getMediaDetails = async (type, id) => {
   }
 };
 
-const getMovieDetails = async (id) =>
-  await catchAsync(() => loadMovieDetails(id));
-
+const getMovieDetails = async (id) => await catchAsync(() => loadMovieDetails(id));
 const getTvDetails = async (id) => await catchAsync(() => loadTvDetails(id));
 
 export const loadMedia = async (category = Category.TOP_TV, page = 1) => {

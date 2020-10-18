@@ -40,12 +40,7 @@ export const getMovieDetails = async (movieId) => {
 
 export const getTvDetails = async (tvId) => {
   const detailsResponse = await getTvById(tvId);
-  const {
-    number_of_seasons,
-    status,
-    production_companies,
-    genres,
-  } = detailsResponse.data;
+  const {number_of_seasons, status, production_companies, genres} = detailsResponse.data;
 
   const castResponse = await getTvCast(tvId);
   const cast = castResponse.data.cast.map((c) => {

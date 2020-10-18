@@ -79,7 +79,7 @@ export default () => {
       });
     });
 
-    console.log('ToRatedTV');
+    console.log('ToפRatedTV');
   };
 
   useEffect(() => {
@@ -87,13 +87,5 @@ export default () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return [
-    topRated,
-    mostPopular,
-    nowPlaying,
-    upComing,
-    popularTv,
-    topRatedTv,
-    error,
-  ];
+  return [topRated, mostPopular, nowPlaying, upComing, popularTv, topRatedTv, error];
 };
