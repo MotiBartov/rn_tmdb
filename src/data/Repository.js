@@ -8,7 +8,7 @@ import {
   getPopularTv as loadPopularTv,
   getTopRatedTv as loadTopRatedTv,
 } from '../data/datasources/TmdbRemoteDataSource';
-import {MediaType} from '../utils/Utils';
+import {MediaType, Category} from '../utils/Utils';
 
 const catchAsync = async (operation) => {
   try {
@@ -49,3 +49,20 @@ const getMovieDetails = async (id) =>
   await catchAsync(() => loadMovieDetails(id));
 
 const getTvDetails = async (id) => await catchAsync(() => loadTvDetails(id));
+
+export const loadMedia = async (category = Category.TOP_TV, page = 1) => {
+  switch (category) {
+    case Category.TOP_MOVIE:
+      return await getTopRated(page);
+    case Category.POPULAR_MOVIE:
+      return await getMostPopular(page);
+    case Category.PLAYING_MOVIE:
+      return await getNowPlaying(page);
+    case Category.UPCOMING_MOVIE:
+      return await getPopularTv(page);
+    case Category.TOP_TV:
+      return await getTopRatedTv(page);
+    case Category.POPULAR_TV:
+      return await getPopularTv(page);
+  }
+};
