@@ -18,7 +18,8 @@ const tvMapper = (tvShow) => mapTvShowToMedia(tvShow);
 
 export const getMovieDetails = async (movieId) => {
   const detailsResponse = await getMovieById(movieId);
-  const {runtime, status, production_companies} = detailsResponse.data;
+
+  const {runtime, status, production_companies, genres} = detailsResponse.data;
 
   const castResponse = await getMovieCast(movieId);
   const cast = castResponse.data.cast.map((c) => {
@@ -33,13 +34,18 @@ export const getMovieDetails = async (movieId) => {
     runtime: runtime,
     status: status,
     companies: production_companies,
-    ...{videos: videos, cast: cast},
+    ...{genres: genres, videos: videos, cast: cast},
   };
 };
 
 export const getTvDetails = async (tvId) => {
   const detailsResponse = await getTvById(tvId);
-  const {runtime, status, production_companies} = detailsResponse.data;
+  const {
+    number_of_seasons,
+    status,
+    production_companies,
+    genres,
+  } = detailsResponse.data;
 
   const castResponse = await getTvCast(tvId);
   const cast = castResponse.data.cast.map((c) => {
@@ -50,10 +56,10 @@ export const getTvDetails = async (tvId) => {
 
   const videos = videosResponse.data.results;
   return {
-    runtime: runtime,
+    seasons: number_of_seasons,
     status: status,
     companies: production_companies,
-    ...{videos: videos, cast: cast},
+    ...{genres: genres, videos: videos, cast: cast},
   };
 };
 

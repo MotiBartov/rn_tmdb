@@ -6,6 +6,7 @@ import {FlatList, ScrollView} from 'react-native-gesture-handler';
 import CastImageItem from '../../components/CastImageItem';
 import YouTubeVideoItem from '../../components/YouTubeVideoItem';
 import useLoadDetails from './useLoadDetails';
+import {MediaType} from '../../utils/Utils';
 const screenWidth = Dimensions.get('screen').width;
 const imagesBaseUrl = 'https://image.tmdb.org/t/p/w500';
 const castBaseUrl = 'https://image.tmdb.org/t/p/original';
@@ -46,12 +47,22 @@ const TmdbDetails = ({navigation}) => {
               <Text style={styles.detailsText}>
                 Release: {state.releaseDate}
               </Text>
-              <Text style={styles.detailsText}>Runtime: {state.runtime}</Text>
+              {media.item.type === MediaType.MOVIE ? (
+                <Text style={styles.detailsText}>Runtime: {state.runtime}</Text>
+              ) : (
+                <Text style={styles.detailsText}>Seasons: {state.seasons}</Text>
+              )}
+
               <Text style={styles.detailsText}>
                 Rating: {state.rating} / 10
               </Text>
               <Text style={styles.detailsText}>Reviews: {state.reviews}</Text>
               <Text style={styles.detailsText}>Status: {state.status}</Text>
+              {state.genres ? (
+                <Text style={styles.detailsText}>
+                  {state.genres.map((genre) => genre.name).join(' | ')}
+                </Text>
+              ) : null}
             </View>
           </View>
           <View style={styles.overviewBox}>
@@ -118,6 +129,7 @@ const styles = StyleSheet.create({
     width: screenWidth * 0.33,
     height: screenWidth * 0.33 * (4 / 3),
     borderRadius: 10,
+    alignSelf: 'center',
   },
   detailsBox: {
     flexDirection: 'column',

@@ -73,7 +73,7 @@ export const mapTvShowToMedia = (tvShow) => {
     tvShow.vote_count,
     MediaType.TV,
     tvShow.backdrop_path,
-    tvShow.release_date,
+    tvShow.first_air_date,
     tvShow.original_language,
   );
 };
