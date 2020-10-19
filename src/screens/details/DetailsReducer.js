@@ -33,6 +33,6 @@ const loadMediaDetails = (dispatch) => {
   };
 };
 
-export default function detailsReducer(initalState) {
-  return createProvider(details_reducer, {loadMediaDetails}, initalState);
+export default function detailsReducer() {
+  return createProvider(details_reducer, {loadMediaDetails}, []);
 }
