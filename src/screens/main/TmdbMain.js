@@ -2,6 +2,7 @@ import React, {useContext, useEffect} from 'react';
 import {Context} from './MainReducer';
 import {View, StyleSheet, ScrollView} from 'react-native';
 import GenereListWrapper from '../../components/GenereListWrapper';
+import GenrePosterList from '../../components/GenrePostersList';
 
 const TmdbMain = ({navigation}) => {
   console.log('TmdbMain created');
@@ -36,7 +37,14 @@ const TmdbMain = ({navigation}) => {
   return (
     <ScrollView>
       <View style={styles.view}>
-        <RenderGenreWrappedList genre={state.topRated} />
+        <View>
+          <GenrePosterList
+            genre={state.topRated}
+            onPressed={onItemPressed}
+            onMorePressed={() => navigateToMoreScreen(state.topRated.category)}
+          />
+        </View>
+
         <RenderGenreWrappedList genre={state.mostPopular} />
         <RenderGenreWrappedList genre={state.nowPlaying} />
         <RenderGenreWrappedList genre={state.upComing} />

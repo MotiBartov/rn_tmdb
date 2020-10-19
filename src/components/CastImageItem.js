@@ -2,8 +2,39 @@ import React from 'react';
 import {Image, Text, View, StyleSheet, Dimensions, TouchableOpacity} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
-const screenWidth = Dimensions.get('screen').width;
-const CastImageItem = ({title, imageUrl, onPress}) => {
+const imageWidth = Dimensions.get('screen').width * 0.25;
+const imageHeight = imageWidth * (4 / 3);
+const CastImageItem = ({title, imageUrl, onPress, width = imageWidth, height = imageHeight, margin = 4}) => {
+  const styles = StyleSheet.create({
+    view: {
+      flexDirection: 'column',
+      alignContent: 'stretch',
+      alignItems: 'stretch',
+    },
+    itemTitle: {
+      fontWeight: 'bold',
+      margin: 8,
+      color: 'white',
+    },
+    linearGradient: {
+      flex: 1,
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 1,
+      bottom: 1,
+      justifyContent: 'flex-end',
+      margin: margin,
+      borderRadius: 10,
+    },
+    castImage: {
+      width: width,
+      height: height,
+      margin: margin,
+      borderRadius: 10,
+    },
+  });
+
   return (
     <TouchableOpacity onPress={onPress}>
       <View style={styles.view}>
@@ -25,35 +56,5 @@ const CastImageItem = ({title, imageUrl, onPress}) => {
     </TouchableOpacity>
   );
 };
-
-const styles = StyleSheet.create({
-  view: {
-    flexDirection: 'column',
-    alignContent: 'stretch',
-    alignItems: 'stretch',
-  },
-  itemTitle: {
-    fontWeight: 'bold',
-    margin: 8,
-    color: 'white',
-  },
-  linearGradient: {
-    flex: 1,
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 1,
-    bottom: 1,
-    justifyContent: 'flex-end',
-    margin: 2,
-    borderRadius: 10,
-  },
-  castImage: {
-    width: screenWidth * 0.25,
-    height: (screenWidth * 0.25 * 4) / 3,
-    margin: 4,
-    borderRadius: 10,
-  },
-});
 
 export default CastImageItem;

@@ -1,9 +1,14 @@
 import React from 'react';
-import {View, Text, StyleSheet, FlatList} from 'react-native';
+import {View, Text, StyleSheet, FlatList, Dimensions} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import MovieListItem from './MovieListItem';
 import {mapCategoryToText} from '../utils/Utils';
-const GenereListWrapper = ({genre, onPressed, onMorePressed}) => {
+import CastImageItem from './CastImageItem';
+const imagesBaseUrl = 'https://image.tmdb.org/t/p/w500';
+
+const width = Dimensions.get('screen').width * 0.9;
+
+const GenrePosterList = ({genre, onPressed, onMorePressed}) => {
   //   console.log(`GenereListWrapper: ${JSON.stringify(mediaList)}`);
 
   return (
@@ -18,7 +23,16 @@ const GenereListWrapper = ({genre, onPressed, onMorePressed}) => {
         data={genre.items}
         keyExtractor={(media) => `${media.id}`}
         horizontal={true}
-        renderItem={(media) => <MovieListItem media={media} onPressed={() => onPressed(media)} />}
+        renderItem={(media) => (
+          <CastImageItem
+            title={media.item.title}
+            imageUrl={`${imagesBaseUrl}/${media.item.imageUrl}`}
+            onPress={() => onPressed(media)}
+            width={width}
+            height={width * (9 / 16)}
+            margin={14}
+          />
+        )}
       />
     </View>
   );
@@ -41,4 +55,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default GenereListWrapper;
+export default GenrePosterList;
