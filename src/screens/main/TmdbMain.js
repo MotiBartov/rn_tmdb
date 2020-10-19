@@ -17,6 +17,12 @@ const TmdbMain = ({navigation}) => {
     navigation.navigate('More', {category: category});
   };
 
+  useEffect(() => {
+    console.log('MainScreen useEffect');
+    getMovies();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const RenderGenreWrappedList = ({genre}) => {
     return genre && genre.items.length > 0 ? (
       <GenereListWrapper
@@ -26,12 +32,6 @@ const TmdbMain = ({navigation}) => {
       />
     ) : null;
   };
-
-  useEffect(() => {
-    console.log('MainScreen useEffect');
-    getMovies();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <ScrollView>
