@@ -1,7 +1,7 @@
-import React from 'react';
+import React, {useContext, useEffect} from 'react';
+import {Context} from '../../context/TmdbReducer';
 import {View, StyleSheet, ScrollView} from 'react-native';
 import GenereListWrapper from '../../components/GenereListWrapper';
-import useLoadMovies from './useLoadMovies';
 
 const TmdbMain = ({navigation}) => {
   // const [topRated, setTopRated] = useState({category: '', items: []});
@@ -10,16 +10,11 @@ const TmdbMain = ({navigation}) => {
   // const [upComing, setUpComing] = useState({category: '', items: []});
   // const [popularTv, setTv] = useState({category: '', items: []});
   // const [topRatedTv, setTopRatedTv] = useState({category: '', items: []});
-  const [
-    topRated,
-    mostPopular,
-    nowPlaying,
-    upComing,
-    popularTv,
-    topRatedTv,
-    error,
-  ] = useLoadMovies();
 
+  console.log('TmdbMain created');
+  const {state, getMovies} = useContext(Context);
+  // const {state, getMovies} = useContext(Context);
+  console.log(`TmdbMain: state: ${JSON.stringify(state)}`);
   const onItemPressed = (media) => {
     console.log(`onItemPressed: ${JSON.stringify(media)}`);
     navigation.navigate('Details', {media: media});
@@ -30,7 +25,7 @@ const TmdbMain = ({navigation}) => {
   };
 
   const RenderGenreWrappedList = ({genre}) => {
-    return genre.items.length > 0 ? (
+    return genre && genre.items.length > 0 ? (
       <GenereListWrapper
         genre={genre}
         onPressed={onItemPressed}
@@ -39,15 +34,21 @@ const TmdbMain = ({navigation}) => {
     ) : null;
   };
 
+  useEffect(() => {
+    console.log('MainScreen useEffect');
+    getMovies();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <ScrollView>
       <View style={styles.view}>
-        <RenderGenreWrappedList genre={topRated} />
-        <RenderGenreWrappedList genre={mostPopular} />
-        <RenderGenreWrappedList genre={nowPlaying} />
-        <RenderGenreWrappedList genre={upComing} />
-        <RenderGenreWrappedList genre={popularTv} />
-        <RenderGenreWrappedList genre={topRatedTv} />
+        <RenderGenreWrappedList genre={state.topRated} />
+        <RenderGenreWrappedList genre={state.mostPopular} />
+        <RenderGenreWrappedList genre={state.nowPlaying} />
+        <RenderGenreWrappedList genre={state.upComing} />
+        <RenderGenreWrappedList genre={state.popularTv} />
+        <RenderGenreWrappedList genre={state.topRatedTv} />
       </View>
     </ScrollView>
   );

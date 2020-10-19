@@ -44,24 +44,18 @@ const TmdbDetails = ({navigation}) => {
               }}
             />
             <View style={styles.detailsBox}>
-              <Text style={styles.detailsText}>
-                Release: {state.releaseDate}
-              </Text>
+              <Text style={styles.detailsText}>Release: {state.releaseDate}</Text>
               {media.item.type === MediaType.MOVIE ? (
                 <Text style={styles.detailsText}>Runtime: {state.runtime}</Text>
               ) : (
                 <Text style={styles.detailsText}>Seasons: {state.seasons}</Text>
               )}
 
-              <Text style={styles.detailsText}>
-                Rating: {state.rating} / 10
-              </Text>
+              <Text style={styles.detailsText}>Rating: {state.rating} / 10</Text>
               <Text style={styles.detailsText}>Reviews: {state.reviews}</Text>
               <Text style={styles.detailsText}>Status: {state.status}</Text>
               {state.genres ? (
-                <Text style={styles.detailsText}>
-                  {state.genres.map((genre) => genre.name).join(' | ')}
-                </Text>
+                <Text style={styles.detailsText}>{state.genres.map((genre) => genre.name).join(' | ')}</Text>
               ) : null}
             </View>
           </View>

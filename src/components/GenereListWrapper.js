@@ -9,9 +9,7 @@ const GenereListWrapper = ({genre, onPressed, onMorePressed}) => {
   return (
     <View style={styles.component}>
       <View style={styles.titleRow}>
-        <Text style={styles.titleText}>
-          {mapCategoryToText(genre.category)}
-        </Text>
+        <Text style={styles.titleText}>{mapCategoryToText(genre.category)}</Text>
         <TouchableOpacity onPress={onMorePressed}>
           <Text style={styles.titleText}>More</Text>
         </TouchableOpacity>
@@ -20,9 +18,7 @@ const GenereListWrapper = ({genre, onPressed, onMorePressed}) => {
         data={genre.items}
         keyExtractor={(media) => `${media.id}`}
         horizontal={true}
-        renderItem={(media) => (
-          <MovieListItem media={media} onPressed={() => onPressed(media)} />
-        )}
+        renderItem={(media) => <MovieListItem media={media} onPressed={() => onPressed(media)} />}
       />
     </View>
   );

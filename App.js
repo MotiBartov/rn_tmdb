@@ -1,9 +1,11 @@
+import React from 'react';
 import {createAppContainer} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
 import TmdbMain from './src/screens/main/TmdbMain';
 import TmdbDetails from './src/screens/details/TmdbDetails';
 import TmdbMore from './src/screens/more/TmdbMore';
 import {mapCategoryToText} from './src/utils/Utils';
+import {Provider} from './src/context/TmdbReducer';
 const navigator = createStackNavigator(
   {
     Home: TmdbMain,
@@ -28,4 +30,7 @@ const navigator = createStackNavigator(
   },
 );
 
-export default createAppContainer(navigator);
+const App = createAppContainer(navigator);
+export default () => {
+  return <Provider children={<App />} />;
+};

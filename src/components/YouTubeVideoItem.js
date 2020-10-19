@@ -13,12 +13,7 @@ const YouTubeVideoItem = ({videoKey}) => {
   console.log(`YouTubeVideoItem: videoKey: ${videoKey} `);
   return (
     <View style={styles.component}>
-      <YouTube
-        videoId={videoKey}
-        apiKey={youTubeApiKey}
-        play={false}
-        style={styles.video}
-      />
+      <YouTube videoId={videoKey} apiKey={youTubeApiKey} play={false} style={styles.video} />
     </View>
   );
 };
