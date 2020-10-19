@@ -1,6 +1,13 @@
-import {getTopRated, getMostPopular, getNowPlaying, getUpComing, getPopularTv, getTopRatedTv} from '../data/Repository';
-import createProvider from './createProvider';
-import {Category} from '../utils/Utils';
+import {
+  getTopRated,
+  getMostPopular,
+  getNowPlaying,
+  getUpComing,
+  getPopularTv,
+  getTopRatedTv,
+} from '../../data/Repository';
+import createProvider from '../../context/createProvider';
+import {Category} from '../../utils/Utils';
 
 const tmdb_reducer = (state, action) => {
   console.log(`reducer: action type: ${JSON.stringify(action.type)}`);

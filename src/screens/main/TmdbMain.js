@@ -1,16 +1,9 @@
 import React, {useContext, useEffect} from 'react';
-import {Context} from '../../context/TmdbReducer';
+import {Context} from './MainReducer';
 import {View, StyleSheet, ScrollView} from 'react-native';
 import GenereListWrapper from '../../components/GenereListWrapper';
 
 const TmdbMain = ({navigation}) => {
-  // const [topRated, setTopRated] = useState({category: '', items: []});
-  // const [mostPopular, setMostPopular] = useState({category: '', items: []});
-  // const [nowPlaying, setNowPlaying] = useState({category: '', items: []});
-  // const [upComing, setUpComing] = useState({category: '', items: []});
-  // const [popularTv, setTv] = useState({category: '', items: []});
-  // const [topRatedTv, setTopRatedTv] = useState({category: '', items: []});
-
   console.log('TmdbMain created');
   const {state, getMovies} = useContext(Context);
   // const {state, getMovies} = useContext(Context);

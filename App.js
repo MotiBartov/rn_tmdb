@@ -5,7 +5,7 @@ import TmdbMain from './src/screens/main/TmdbMain';
 import TmdbDetails from './src/screens/details/TmdbDetails';
 import TmdbMore from './src/screens/more/TmdbMore';
 import {mapCategoryToText} from './src/utils/Utils';
-import {Provider} from './src/context/TmdbReducer';
+import {Provider} from './src/screens/main/MainReducer';
 const navigator = createStackNavigator(
   {
     Home: TmdbMain,
