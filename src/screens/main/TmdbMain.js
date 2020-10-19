@@ -7,9 +7,9 @@ const TmdbMain = ({navigation}) => {
   console.log('TmdbMain created');
   const {state, getMovies} = useContext(Context);
   // const {state, getMovies} = useContext(Context);
-  console.log(`TmdbMain: state: ${JSON.stringify(state)}`);
+  // console.log(`TmdbMain: state: ${JSON.stringify(state)}`);
   const onItemPressed = (media) => {
-    console.log(`onItemPressed: ${JSON.stringify(media)}`);
+    // console.log(`onItemPressed: ${JSON.stringify(media)}`);
     navigation.navigate('Details', {media: media});
   };
 

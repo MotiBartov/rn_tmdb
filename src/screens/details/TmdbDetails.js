@@ -1,21 +1,29 @@
-import React from 'react';
+import React, {useContext, useEffect} from 'react';
 import {View, StyleSheet, Text, Image} from 'react-native';
 import {withNavigation} from 'react-navigation';
 import {Dimensions} from 'react-native';
 import {FlatList, ScrollView} from 'react-native-gesture-handler';
 import CastImageItem from '../../components/CastImageItem';
 import YouTubeVideoItem from '../../components/YouTubeVideoItem';
-import useLoadDetails from './useLoadDetails';
 import {MediaType} from '../../utils/Utils';
+import detailsReducer from './DetailsReducer';
+
 const screenWidth = Dimensions.get('screen').width;
 const imagesBaseUrl = 'https://image.tmdb.org/t/p/w500';
 const castBaseUrl = 'https://image.tmdb.org/t/p/original';
+const {Context, Provider} = detailsReducer();
 
 const TmdbDetails = ({navigation}) => {
   const media = navigation.getParam('media');
-  const [state] = useLoadDetails(media.item);
+  //   const [state] = useLoadDetails(media.item);
+  const {state, loadMediaDetails} = useContext(Context);
 
-  console.log(`build: ${JSON.stringify(state)}`);
+  useEffect(() => {
+    loadMediaDetails(media.item);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  //   console.log(`build: ${JSON.stringify(state)}`);
   return (
     <ScrollView>
       <View>
@@ -168,4 +176,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default withNavigation(TmdbDetails);
+const Screen = withNavigation(TmdbDetails);
+export default () => {
+  return <Provider children={<Screen />} />;
+};

@@ -27,7 +27,6 @@ export const getMovieDetails = async (movieId) => {
   });
 
   const videosResponse = await getMovieVideos(movieId);
-  console.log(`videoResponse: ${JSON.stringify(videosResponse)}`);
 
   const videos = videosResponse.data.results;
   return {
