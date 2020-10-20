@@ -7,9 +7,9 @@ const imageHeight = imageWidth * (4 / 3);
 const CastImageItem = ({title, imageUrl, onPress, width = imageWidth, height = imageHeight, margin = 4}) => {
   const styles = StyleSheet.create({
     view: {
-      flexDirection: 'column',
-      alignContent: 'stretch',
-      alignItems: 'stretch',
+      flexDirection: 'row',
+      alignSelf: 'center',
+      justifyContent: 'center',
     },
     itemTitle: {
       fontWeight: 'bold',
@@ -24,14 +24,14 @@ const CastImageItem = ({title, imageUrl, onPress, width = imageWidth, height = i
       right: 1,
       bottom: 1,
       justifyContent: 'flex-end',
-      margin: margin,
+      marginHorizontal: 4,
       borderRadius: 10,
     },
     castImage: {
       width: width,
       height: height,
-      margin: margin,
       borderRadius: 10,
+      marginHorizontal: margin,
     },
   });
 
@@ -46,9 +46,9 @@ const CastImageItem = ({title, imageUrl, onPress, width = imageWidth, height = i
         />
         <LinearGradient
           colors={['transparent', '#000000ff']}
-          start={{x: 0.5, y: 0}}
-          end={{x: 0.5, y: 1}}
-          locations={[0.75, 1.0]}
+          start={{x: 0.5, y: 0.0}}
+          end={{x: 0.1, y: 1.0}}
+          locations={[0.5, 1.0]}
           style={styles.linearGradient}>
           <Text style={styles.itemTitle}>{title}</Text>
         </LinearGradient>

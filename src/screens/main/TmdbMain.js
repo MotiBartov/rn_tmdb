@@ -3,6 +3,7 @@ import {Context} from './MainReducer';
 import {View, StyleSheet, ScrollView} from 'react-native';
 import GenereListWrapper from '../../components/GenereListWrapper';
 import GenrePosterList from '../../components/GenrePostersList';
+import CarouselItemWrapper from '../../components/CarouselItemWrapper';
 
 const TmdbMain = ({navigation}) => {
   console.log('TmdbMain created');
@@ -39,7 +40,7 @@ const TmdbMain = ({navigation}) => {
       <View style={styles.view}>
         {state.topRated && state.topRated.items.length > 0 ? (
           <View>
-            <GenrePosterList
+            <CarouselItemWrapper
               genre={state.topRated}
               onPressed={onItemPressed}
               onMorePressed={() => navigateToMoreScreen(state.topRated.category)}

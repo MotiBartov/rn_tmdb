@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, FlatList} from 'react-native';
+import {View, FlatList, Text} from 'react-native';
 import {withNavigation} from 'react-navigation';
 import MovieListItem from '../../components/MovieListItem';
 import useLoadMore from './useLoadMore';
@@ -20,7 +20,7 @@ const TmdbMore = ({navigation}) => {
     }
   };
   return (
-    <View>
+    <View style={{jusifyContent: 'center', alignItems: 'center'}}>
       <FlatList
         data={items}
         keyExtractor={(item) => `${item.id}`}
@@ -29,6 +29,8 @@ const TmdbMore = ({navigation}) => {
           MovieListItem({
             media: item,
             onPressed: () => navigateToDetailsScreen(item),
+            marginHorizontal: 8,
+            marginVertical: 8,
           })
         }
         onEndReachedThreshold={0.01}

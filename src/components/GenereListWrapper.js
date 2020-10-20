@@ -18,7 +18,7 @@ const GenereListWrapper = ({genre, onPressed, onMorePressed}) => {
         data={genre.items}
         keyExtractor={(media) => `${media.id}`}
         horizontal={true}
-        renderItem={(media) => <MovieListItem media={media} onPressed={() => onPressed(media)} />}
+        renderItem={(media) => <MovieListItem marginHorizontal={8} media={media} onPressed={() => onPressed(media)} />}
       />
     </View>
   );

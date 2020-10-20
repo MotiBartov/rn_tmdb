@@ -82,6 +82,7 @@ const TmdbDetails = ({navigation}) => {
               renderItem={(c) => {
                 return (
                   <CastImageItem
+                    margin={4}
                     imageUrl={`${castBaseUrl}${c.item.imageUrl}`}
                     title={c.item.name}
                     onPress={() => {
