@@ -1,7 +1,6 @@
 import React from 'react';
 import {View, Text, StyleSheet, FlatList, Dimensions} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import MovieListItem from './MovieListItem';
 import {mapCategoryToText} from '../utils/Utils';
 import CastImageItem from './CastImageItem';
 const imagesBaseUrl = 'https://image.tmdb.org/t/p/w500';

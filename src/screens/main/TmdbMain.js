@@ -25,7 +25,7 @@ const TmdbMain = ({navigation}) => {
   }, []);
 
   const RenderGenreWrappedList = ({genre}) => {
-    return genre && genre.items.length > 0 ? (
+    return genre !== undefined && genre.items.length > 0 ? (
       <GenereListWrapper
         genre={genre}
         onPressed={onItemPressed}
@@ -37,13 +37,15 @@ const TmdbMain = ({navigation}) => {
   return (
     <ScrollView>
       <View style={styles.view}>
-        <View>
-          <GenrePosterList
-            genre={state.topRated}
-            onPressed={onItemPressed}
-            onMorePressed={() => navigateToMoreScreen(state.topRated.category)}
-          />
-        </View>
+        {state.topRated && state.topRated.items.length > 0 ? (
+          <View>
+            <GenrePosterList
+              genre={state.topRated}
+              onPressed={onItemPressed}
+              onMorePressed={() => navigateToMoreScreen(state.topRated.category)}
+            />
+          </View>
+        ) : null}
 
         <RenderGenreWrappedList genre={state.mostPopular} />
         <RenderGenreWrappedList genre={state.nowPlaying} />
