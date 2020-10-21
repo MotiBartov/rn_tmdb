@@ -2,12 +2,11 @@ import React from 'react';
 import {View, StyleSheet} from 'react-native';
 import {Dimensions} from 'react-native';
 import YouTube from 'react-native-youtube';
-
+import {youTubeApiKey} from '../config';
 const screen = Dimensions.get('screen');
 
 const imageWidth = screen.width * 0.9;
 const imageHeight = imageWidth * (9 / 16);
-const youTubeApiKey = 'AIzaSyDhAhh2xmDIu-B7pkghnW-noGMeNtHEQDs';
 
 const YouTubeVideoItem = ({videoKey}) => {
   console.log(`YouTubeVideoItem: videoKey: ${videoKey} `);
