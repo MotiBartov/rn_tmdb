@@ -1,2 +1,2 @@
-# rn_tmdb
-React Native The Movie TB app
+# React Native TMDB Sample project
+React Native The Movie DB app
