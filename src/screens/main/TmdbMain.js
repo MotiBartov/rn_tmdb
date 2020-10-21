@@ -2,7 +2,6 @@ import React, {useContext, useEffect} from 'react';
 import {Context} from './MainReducer';
 import {View, StyleSheet, ScrollView} from 'react-native';
 import GenereListWrapper from '../../components/GenereListWrapper';
-import GenrePosterList from '../../components/GenrePostersList';
 import CarouselItemWrapper from '../../components/CarouselItemWrapper';
 
 const TmdbMain = ({navigation}) => {
