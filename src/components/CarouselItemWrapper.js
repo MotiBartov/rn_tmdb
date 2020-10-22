@@ -1,11 +1,10 @@
 import React from 'react';
-import {View, Text, StyleSheet, FlatList, Dimensions} from 'react-native';
+import {View, Text, StyleSheet, Dimensions} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import CastImageItem from './CastImageItem';
 import {mapCategoryToText} from '../utils/Utils';
 import Carousel from 'react-native-snap-carousel';
 
-const width = Dimensions.get('screen').width;
 const imagesBaseUrl = 'https://image.tmdb.org/t/p/w500';
 
 const CarouselItemWrapper = ({genre, onPressed, onMorePressed}) => {
